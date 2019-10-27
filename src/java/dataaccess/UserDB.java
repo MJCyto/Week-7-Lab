@@ -48,6 +48,36 @@ public class UserDB {
             connectionPool.freeConnection(connection);
         }
     }
+    
+    public List<User> getAllActive() throws SQLException{
+        ConnectionPool connectionPool = null;
+        Connection connection = null;
+        try {
+            connectionPool = ConnectionPool.getInstance();
+            connection = connectionPool.getConnection();
+            User user;
+            ArrayList<User> users = new ArrayList<>();
+
+            String preparedQuery = "SELECT active, email, fname, lname, password, role FROM user_table";
+            PreparedStatement ps = connection.prepareStatement(preparedQuery);
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+                
+                if (rs.getBoolean(1)){
+                    int roleID = rs.getInt(6);
+                RoleDB roleDB = new RoleDB();
+                Role role = roleDB.getRole(roleID);
+                    user = new User(rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5), role);
+                    user.setActive(true);
+                    users.add(user);
+                }
+            }
+            return users;
+        } finally {
+            connectionPool.freeConnection(connection);
+        }
+    }
 
     /**
      * This method update the User record.
