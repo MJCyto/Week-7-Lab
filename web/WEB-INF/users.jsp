@@ -63,11 +63,11 @@
                         />
                     <select
                         class="input-dark"
-                        name="role"
+                        name="roleAdd"
                         placeholder="Role..."
                         required>
                         <c:forEach items="${roles}" var="role">
-                            <option value="${role.roleName}">${role.roleName}</option>
+                            <option value="${role.roleID}">${role.roleName}</option>
                         </c:forEach>
                     </select>
 
@@ -160,10 +160,10 @@
                             <c:forEach items="${roles}" var="role">
                                 <c:choose>
                                     <c:when test="${user.role.roleName eq role.roleName}">
-                                        <option value="${role.roleName}" selected="selected">${role.roleName}</option>
+                                        <option value="${role.roleID}" selected="selected">${role.roleName}</option>
                                     </c:when>
                                     <c:when test="${user.role.roleName ne role.roleName}">
-                                        <option value="${role.roleName}">${role.roleName}</option>
+                                        <option value="${role.roleID}">${role.roleName}</option>
                                     </c:when>
                                 </c:choose>
                             </c:forEach>
