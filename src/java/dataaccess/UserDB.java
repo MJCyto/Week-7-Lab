@@ -30,9 +30,9 @@ public class UserDB {
             connection = connectionPool.getConnection();
             String preparedQuery
                     = "INSERT INTO User_Table "
-                    + "(email, fname, lname, password) "
+                    + "(email, fname, lname, password, role) "
                     + "VALUES "
-                    + "(?, ?, ?, ?)";
+                    + "(?, ?, ?, ?, ?)";
 
             PreparedStatement ps = connection.prepareStatement(preparedQuery);
 
@@ -40,6 +40,7 @@ public class UserDB {
             ps.setString(2, user.getFname());
             ps.setString(3, user.getLname());
             ps.setString(4, user.getPassword());
+            ps.setInt(5, user.getRole().getRoleID());
 
             rows = ps.executeUpdate();
             ps.close();
@@ -93,7 +94,7 @@ public class UserDB {
             connectionPool = ConnectionPool.getInstance();
             connection = connectionPool.getConnection();
 
-            String preparedQuery = "UPDATE User_Table set active=?, fname=?, lname=?, password=? where email=?";
+            String preparedQuery = "UPDATE User_Table set active=?, fname=?, lname=?, password=?, roleid=? where email=?";
             int successCount = 0;
 
             PreparedStatement statement = connection.prepareStatement(preparedQuery);
@@ -102,6 +103,7 @@ public class UserDB {
             statement.setString(3, user.getLname());
             statement.setString(4, user.getEmail());
             statement.setString(5, user.getPassword());
+            statement.setInt(6, user.getRole().getRoleID());
 
             successCount = statement.executeUpdate();
             statement.close();

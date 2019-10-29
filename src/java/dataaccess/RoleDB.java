@@ -71,16 +71,57 @@ public class RoleDB {
         }
     }
     
-    public void insert(int roleID, String roleName){
-        
+    public void insert(int roleID, String roleName) throws SQLException{
+        ConnectionPool connectionPool = null;
+        Connection connection = null;
+        try {
+            connectionPool = ConnectionPool.getInstance();
+            connection = connectionPool.getConnection();
+
+            String preparedQuery = "INSERT INTO role_table VALUES (?, ?)";
+            PreparedStatement ps = connection.prepareStatement(preparedQuery);
+            ps.setInt(1, roleID);
+            ps.setString(2, roleName);
+            ps.executeQuery();
+
+        } finally {
+            connectionPool.freeConnection(connection);
+        }
     }
     
-    public void delete(int roleID){
-        
+    public void delete(int roleID) throws SQLException{
+        ConnectionPool connectionPool = null;
+        Connection connection = null;
+        try {
+            connectionPool = ConnectionPool.getInstance();
+            connection = connectionPool.getConnection();
+
+            String preparedQuery = "DELETE FROM role_table where roleID = ?";
+            PreparedStatement ps = connection.prepareStatement(preparedQuery);
+            ps.setInt(1, roleID);
+            ps.executeQuery();
+
+        } finally {
+            connectionPool.freeConnection(connection);
+        }
     }
     
-    public void update(int roleID, String roleName){
-        
+    public void update(int roleID, String roleName) throws SQLException{
+        ConnectionPool connectionPool = null;
+        Connection connection = null;
+        try {
+            connectionPool = ConnectionPool.getInstance();
+            connection = connectionPool.getConnection();
+
+            String preparedQuery = "UPDATE role_table SET roleName = '?' WHERE roleID = ?";
+            PreparedStatement ps = connection.prepareStatement(preparedQuery);
+            ps.setString(1, roleName);
+            ps.setInt(2, roleID);
+            ps.executeQuery();
+
+        } finally {
+            connectionPool.freeConnection(connection);
+        }
     }
 
 }
